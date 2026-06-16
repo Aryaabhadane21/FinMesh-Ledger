@@ -24,19 +24,19 @@ const BankTransferMap = () => {
                     <div style={{
                         position: 'absolute',
                         inset: 0,
-                        backgroundImage: 'radial-gradient(circle at 2px 2px, #111 1px, transparent 0)',
+                        backgroundImage: 'radial-gradient(circle at 2px 2px, #333 1px, transparent 0)',
                         backgroundSize: '40px 40px',
-                        opacity: 0.5
+                        opacity: 0.15
                     }}></div>
 
                     <img
-                        src="/map.png"
+                        src="/network.png"
                         alt="Network Map"
                         style={{
                             width: '100%',
                             maxWidth: '900px',
-                            filter: 'grayscale(1) invert(1) brightness(2)',
-                            opacity: 0.8,
+                            filter: 'brightness(1.2) contrast(1.1)',
+                            opacity: 1,
                             position: 'relative',
                             zIndex: 1
                         }}

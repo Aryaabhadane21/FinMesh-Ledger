@@ -1,6 +1,6 @@
 import React from 'react';
 import PageLayout from '../components/PageLayout';
-import ReceiptChecker from '../components/ReceiptChecker';
+import { initialTransactions } from '../data/mockData';
 
 const ReceiptCheckerPage = () => {
     return (
@@ -11,7 +11,7 @@ const ReceiptCheckerPage = () => {
             prevPage={{ path: '/settlement-queue', label: 'Settlement Queue' }}
             nextPage={{ path: '/value-sorter', label: 'Value Sorter' }}
         >
-            <ReceiptChecker />
+            <ReceiptChecker transactions={initialTransactions} />
         </PageLayout>
     );
 };

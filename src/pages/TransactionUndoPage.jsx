@@ -4,11 +4,17 @@ import TransactionUndo from '../components/TransactionUndo';
 import { initialTransactions, initialAccounts } from '../data/mockData';
 
 const TransactionUndoPage = () => {
+    const [transactions, setTransactions] = useState(initialTransactions);
     const [accounts, setAccounts] = useState(initialAccounts);
 
     const handleUndo = (txnId) => {
-        const txn = initialTransactions.find(t => t.id === txnId);
+        const txn = transactions.find(t => t.id === txnId);
         if (!txn) return;
+
+        // Remove from transactions list
+        setTransactions(prev => prev.filter(t => t.id !== txnId));
+
+        // Audit balance reversal
         setAccounts(prev => prev.map(acc => {
             if (acc.id === txn.from) return { ...acc, balance: acc.balance + txn.amount };
             if (acc.id === txn.to) return { ...acc, balance: acc.balance - txn.amount };
@@ -25,7 +31,7 @@ const TransactionUndoPage = () => {
             nextPage={{ path: '/settlement-queue', label: 'Settlement Queue' }}
         >
             <div className="container">
-                <TransactionUndo initialTransactions={initialTransactions} onUndo={handleUndo} />
+                <TransactionUndo initialTransactions={transactions} onUndo={handleUndo} />
             </div>
         </PageLayout>
     );
