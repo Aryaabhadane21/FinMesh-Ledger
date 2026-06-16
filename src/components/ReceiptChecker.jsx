@@ -52,7 +52,12 @@ const ReceiptChecker = ({ transactions }) => {
                             <div className="card" style={{ border: '1px solid #fff', padding: '0' }}>
                                 <div style={{ padding: '32px', borderBottom: '1px solid var(--border-dark)', display: 'flex', alignItems: 'center', gap: '20px' }}>
                                     <SealCheck size={32} color="#fff" />
-                                    <h3 style={{ fontSize: '1rem' }}>VERIFICATION_SUCCESS</h3>
+                                    <div>
+                                        <h3 style={{ fontSize: '1rem' }}>VERIFICATION_SUCCESS</h3>
+                                        <p style={{ fontSize: '0.8rem', color: '#4caf50', marginTop: '4px', fontWeight: 'bold' }}>
+                                            RECEIPT_VALIDATED_SUCCESSFULLY
+                                        </p>
+                                    </div>
                                 </div>
                                 <div style={{ padding: '32px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
                                     <div>
