@@ -32,7 +32,7 @@ const HomePage = () => {
                         </div>
                     </div>
                     <div style={{ position: 'relative' }}>
-                        <img src="/src/assets/hero.png" alt="Finance Visualization" style={{ width: '100%', borderRadius: '24px', boxShadow: '0 20px 80px rgba(255,255,255,0.05)' }} />
+                        <img src="/hero.png" alt="Finance Visualization" style={{ width: '100%', borderRadius: '24px', boxShadow: '0 20px 80px rgba(255,255,255,0.05)' }} />
                     </div>
                 </div>
             </section>

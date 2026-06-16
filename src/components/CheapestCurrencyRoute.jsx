@@ -18,7 +18,7 @@ const CheapestCurrencyRoute = () => {
                         <p style={{ color: 'var(--text-gray)', fontFamily: 'Inter' }}>A tool that finds the path for changing currencies (e.g., USD to EUR) that has the lowest cost.</p>
                     </div>
                     <div>
-                        <img src="/src/assets/optimal_path.png" alt="Optimal Path" style={{ width: '100%', borderRadius: '12px', opacity: 0.7 }} />
+                        <img src="/optimal_path.png" alt="Optimal Path" style={{ width: '100%', borderRadius: '12px', opacity: 0.7 }} />
                     </div>
                 </div>
 

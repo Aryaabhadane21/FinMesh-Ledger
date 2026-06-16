@@ -10,7 +10,7 @@ const BankTransferMap = () => {
                 </div>
 
                 <div style={{ marginBottom: '64px', position: 'relative' }}>
-                    <img src="/src/assets/network.png" alt="Network Map" style={{ width: '100%', maxWidth: '800px', borderRadius: '16px', opacity: 0.8, filter: 'grayscale(100%) brightness(0.8)' }} />
+                    <img src="/network.png" alt="Network Map" style={{ width: '100%', maxWidth: '800px', borderRadius: '16px', opacity: 0.8, filter: 'grayscale(100%) brightness(0.8)' }} />
                 </div>
 
                 <div style={{

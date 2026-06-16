@@ -33,7 +33,7 @@ const Header = () => {
                 backdropFilter: 'blur(12px)'
             }}>
                 <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '14px' }}>
-                    <img src="/src/assets/logo.png" alt="FinMesh" style={{ width: '40px', height: '40px', borderRadius: '4px', objectFit: 'cover' }} />
+                    <img src="/logo.png" alt="FinMesh" style={{ width: '40px', height: '40px', borderRadius: '4px', objectFit: 'cover' }} />
                     <span style={{ fontSize: '1.3rem', color: 'var(--text-white)', fontWeight: '700', fontFamily: 'Playfair Display, serif' }}>
                         FinMesh Ledger
                     </span>
