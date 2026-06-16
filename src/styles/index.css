@@ -58,13 +58,23 @@ h6 {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
     color: var(--text-white);
-    /* ~11.5vw ensures 7 chars of FINMESH fill ~80% of screen width nicely */
-    font-size: clamp(3.5rem, 11.5vw, 13rem);
+    /* Scale dynamically between 2rem and 13rem based on viewport width */
+    font-size: clamp(2.2rem, 12vw, 13rem);
     line-height: 0.9;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.04em;
     text-transform: uppercase;
     user-select: none;
     white-space: nowrap;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+@media (max-width: 480px) {
+    .wordmark {
+        font-size: clamp(1.8rem, 13vw, 3.5rem);
+        letter-spacing: -0.02em;
+    }
 }
 
 /* ── Layout ── */
@@ -271,6 +281,21 @@ button,
 .btn-ghost:hover {
     border-color: var(--text-white);
     background: rgba(255, 255, 255, 0.04);
+}
+
+.secondary-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border-dark);
+    padding: 10px 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.secondary-btn:hover {
+    border-color: var(--border-light);
+    color: var(--text-white);
+    background: var(--hover-bg);
 }
 
 /* ── Tables ── */
