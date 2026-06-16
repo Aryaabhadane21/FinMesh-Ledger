@@ -3,8 +3,8 @@
 FinMesh Ledger is a premium, multi-page financial application designed for trading money between people and accounts. It ensures transparent tracking, real-time ledger management, and cost-optimized currency conversions.
 
 ## 🔗 Links
-- **Live Demo:** [Link to Live Site](https://your-live-demo-link.com)
-- **GitHub Repository:** [Link to GitHub](https://github.com/your-username/finmesh-ledger)
+- **Live Demo:** https://fin-mesh-ledger.vercel.app
+- **GitHub Repository:** https://github.com/Aryaabhadane21/FinMesh-Ledger
 
 ## 🛠️ Tech Stack
 - **Frontend Framework:** React 19 (Vite)
@@ -26,10 +26,12 @@ The system implements all "Must Have" features for a robust financial ledger:
 8.  **Trade Limit Maximizer:** An optimization module that batches trades to hit maximum approval limits for faster processing.
 
 ## 📸 Screenshots
-*(Add your screenshots here)*
-| Home Overview | Account List |
-| :---: | :---: |
-| ![Home Page](public/screenshots/home.png) | ![Account List](public/screenshots/accounts.png) |
+
+<img width="1710" height="1112" alt="Screenshot 2026-06-16 at 2 44 59 PM" src="https://github.com/user-attachments/assets/360b4b95-f021-497c-9abb-c59386452d9c" />
+
+<img width="1710" height="1112" alt="Screenshot 2026-06-16 at 2 45 20 PM" src="https://github.com/user-attachments/assets/19107efe-7ace-49e1-80f0-93e462be43e1" />
+
+
 
 ## 🚀 Getting Started
 
@@ -71,6 +73,5 @@ src/
 └── App.jsx          # Main application routing and logic
 ```
 
-## 📝 License
-Distributed under the MIT License.
+
 # FinMesh-Ledger
