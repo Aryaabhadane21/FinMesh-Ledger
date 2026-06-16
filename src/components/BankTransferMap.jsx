@@ -1,76 +1,68 @@
 import React from 'react';
+import { MapTrifold, LinkBreak, Pulse } from '@phosphor-icons/react';
 
 const BankTransferMap = () => {
     return (
-        <section className="container reveal">
-            <div className="card" style={{ padding: '80px 40px', textAlign: 'center', overflow: 'hidden' }}>
-                <div style={{ marginBottom: '64px' }}>
-                    <h2 style={{ fontSize: '36px', marginBottom: '16px' }}>Bank Transfer Map</h2>
-                    <p style={{ color: 'var(--text-gray)', fontFamily: 'Inter' }}>A central system that shows how money moves between different banks during a transfer.</p>
+        <section className="container">
+            <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
+                <div style={{ padding: '40px', borderBottom: '1px solid var(--border-dark)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                        <MapTrifold size={32} color="#fff" />
+                        <h2 style={{ fontSize: '1.2rem' }}>NETWORK_TOPOLOGY</h2>
+                    </div>
+                    <div style={{ display: 'flex', gap: '24px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.7rem', fontWeight: '800' }}>
+                            <span style={{ width: '8px', height: '8px', backgroundColor: '#fff', borderRadius: '50%' }}></span> ACTIVE_NODES
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.7rem', fontWeight: '800', opacity: 0.4 }}>
+                            <span style={{ width: '8px', height: '8px', backgroundColor: '#333', borderRadius: '50%' }}></span> OFFLINE_NODES
+                        </div>
+                    </div>
                 </div>
 
-                <div style={{ marginBottom: '64px', position: 'relative' }}>
-                    <img src="/network.png" alt="Network Map" style={{ width: '100%', maxWidth: '800px', borderRadius: '16px', opacity: 0.8, filter: 'grayscale(100%) brightness(0.8)' }} />
-                </div>
+                <div style={{ position: 'relative', backgroundColor: '#050505', padding: '80px', textAlign: 'center' }}>
+                    <div style={{
+                        position: 'absolute',
+                        inset: 0,
+                        backgroundImage: 'radial-gradient(circle at 2px 2px, #111 1px, transparent 0)',
+                        backgroundSize: '40px 40px',
+                        opacity: 0.5
+                    }}></div>
 
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    maxWidth: '1000px',
-                    margin: '0 auto',
-                    position: 'relative'
-                }}>
-                    {[
-                        { name: 'Bank A', color: 'White' },
-                        { name: 'Bank B', color: 'White' },
-                        { name: 'Bank C', color: 'White' }
-                    ].map((bank, i) => (
-                        <React.Fragment key={bank.name}>
-                            <div className="parallax-element" style={{
-                                width: '140px',
-                                height: '140px',
-                                borderRadius: '50%',
-                                border: '1px solid var(--border-dark)',
-                                backgroundColor: 'var(--text-white)',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                zIndex: 2
-                            }}>
-                                <strong style={{ color: 'var(--bg-black)', fontSize: '1.2rem', fontFamily: 'Playfair Display' }}>{bank.name}</strong>
-                                <small style={{ color: 'rgba(0,0,0,0.5)', fontSize: '0.75rem', fontFamily: 'Inter', fontWeight: 'bold' }}>VERIFIED</small>
+                    <img
+                        src="/map.png"
+                        alt="Network Map"
+                        style={{
+                            width: '100%',
+                            maxWidth: '900px',
+                            filter: 'grayscale(1) invert(1) brightness(2)',
+                            opacity: 0.8,
+                            position: 'relative',
+                            zIndex: 1
+                        }}
+                    />
+
+                    <div style={{
+                        marginTop: '60px',
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(3, 1fr)',
+                        gap: '1px',
+                        backgroundColor: 'var(--border-dark)',
+                        position: 'relative',
+                        zIndex: 1
+                    }}>
+                        {[
+                            { label: 'LATENCY', value: '42ms', status: 'Optimal' },
+                            { label: 'THROUGHPUT', value: '1.4GB/s', status: 'Optimal' },
+                            { label: 'ERROR_RATE', value: '0.0001%', status: 'Minimal' }
+                        ].map((stat, i) => (
+                            <div key={i} style={{ padding: '32px', backgroundColor: 'var(--bg-black)' }}>
+                                <div style={{ fontSize: '0.65rem', color: 'var(--text-gray)', marginBottom: '8px' }}>{stat.label}</div>
+                                <div style={{ fontSize: '1.5rem', fontWeight: '800', color: 'var(--text-white)', marginBottom: '8px' }}>{stat.value}</div>
+                                <div style={{ fontSize: '0.65rem', fontWeight: '900', color: '#555' }}>STATUS: {stat.status}</div>
                             </div>
-
-                            {i < 2 && (
-                                <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-dark)', position: 'relative' }}>
-                                    <div style={{
-                                        position: 'absolute',
-                                        top: '-16px',
-                                        width: '100%',
-                                        display: 'flex',
-                                        justifyContent: 'center'
-                                    }}>
-                                        <div style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
-                                            <span style={{ fontSize: '1.5rem' }}>{['💵', '💶'][i]}</span>
-                                        </div>
-                                    </div>
-                                    <div style={{
-                                        position: 'absolute',
-                                        bottom: '-28px',
-                                        width: '100%',
-                                        textAlign: 'center',
-                                        color: 'var(--text-gray)',
-                                        fontSize: '0.85rem',
-                                        fontFamily: 'Inter'
-                                    }}>
-                                        {i === 0 ? '$10,000' : '€9,200'}
-                                    </div>
-                                </div>
-                            )}
-                        </React.Fragment>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>

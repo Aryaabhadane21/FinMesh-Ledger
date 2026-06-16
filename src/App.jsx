@@ -46,7 +46,7 @@ function App() {
     <Router>
       <ScrollToTop />
       <ScrollReveal />
-      <div style={{ backgroundColor: 'var(--bg-black)', minHeight: '100vh' }}>
+      <div>
         <Header />
         <main>
           <Routes>

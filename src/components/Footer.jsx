@@ -1,75 +1,139 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Footer = () => {
-    return (
-        <footer className="reveal active" style={{
-            backgroundColor: 'var(--bg-black)',
-            borderTop: '1px solid var(--border-dark)',
-            padding: '100px 20px',
-            marginTop: '120px'
+const Footer = () => (
+    <footer style={{
+        backgroundColor: 'var(--bg-black)',
+        borderTop: '1px solid var(--border-dark)',
+        paddingTop: '100px',
+        overflow: 'hidden',
+    }}>
+        {/* ── Two-column link list ── */}
+        <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            padding: '0 48px 80px',
+            flexWrap: 'wrap',
+            gap: '48px',
         }}>
-            <div className="container" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '80px' }}>
-                <div>
-                    <h3 style={{ fontSize: '32px', color: 'var(--text-white)', marginBottom: '32px', fontFamily: 'Playfair Display' }}>FinMesh Ledger</h3>
-                    <p style={{ maxWidth: '400px', color: 'var(--text-gray)', fontFamily: 'Inter', lineHeight: '1.8' }}>
-                        Providing clear settlements and efficient currency trade routing.
-                        Developed in Thane, Maharashtra.
-                    </p>
-                    <div style={{ marginTop: '40px', display: 'flex', gap: '24px' }}>
-                        <span style={{ fontSize: '1.8rem' }}>💵</span>
-                        <span style={{ fontSize: '1.8rem' }}>💶</span>
-                        <span style={{ fontSize: '1.8rem' }}>💷</span>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 style={{ color: 'var(--text-white)', marginBottom: '32px', fontFamily: 'Playfair Display' }}>Governance</h4>
-                    <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                        <li><a href="#" className="footer-link">Digital Assets</a></li>
-                        <li><a href="#" className="footer-link">Ledger Verification</a></li>
-                        <li><a href="#" className="footer-link">Legal Policy</a></li>
-                    </ul>
-                </div>
-
-                <div style={{ textAlign: 'right' }}>
-                    <h4 style={{ color: 'var(--text-white)', marginBottom: '32px', fontFamily: 'Playfair Display' }}>Crafted By</h4>
-                    <p style={{ color: 'var(--text-white)', fontWeight: '800', fontSize: '1.4rem', fontFamily: 'Playfair Display' }}>Aryaa Bhadane</p>
-                    <p style={{ color: 'var(--text-gray)', fontSize: '0.95rem', marginTop: '4px', fontFamily: 'Inter' }}>Thane, Maharashtra.</p>
-                    <p style={{ marginTop: '40px', fontSize: '0.85rem', color: 'var(--text-gray)', fontStyle: 'italic', fontFamily: 'Inter' }}>
-                        "Money should move freely, without hidden costs."
-                    </p>
+            <div>
+                <p style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '0.6rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    color: 'var(--text-muted)',
+                    marginBottom: '28px',
+                }}>Index</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {[
+                        { label: 'Accounts', path: '/account-list' },
+                        { label: 'Settlement Queue', path: '/settlement-queue' },
+                        { label: 'Currency Route', path: '/cheapest-currency-route' },
+                        { label: 'Trade Limit', path: '/trade-limit-maximizer' },
+                    ].map(l => (
+                        <Link key={l.path} to={l.path} style={{
+                            textDecoration: 'none',
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '0.95rem',
+                            color: 'var(--text-gray)',
+                            transition: 'color 0.2s ease',
+                        }}
+                            onMouseEnter={e => e.target.style.color = '#fff'}
+                            onMouseLeave={e => e.target.style.color = 'var(--text-gray)'}
+                        >{l.label}</Link>
+                    ))}
                 </div>
             </div>
 
-            <div style={{
+            <div>
+                <p style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '0.6rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    color: 'var(--text-muted)',
+                    marginBottom: '28px',
+                }}>Connect</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <a href="https://github.com/Aryaabhadane21" target="_blank" rel="noopener noreferrer" style={{
+                        textDecoration: 'none',
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '0.95rem',
+                        color: 'var(--text-gray)',
+                        transition: 'color 0.2s ease',
+                    }}
+                        onMouseEnter={e => e.target.style.color = '#fff'}
+                        onMouseLeave={e => e.target.style.color = 'var(--text-gray)'}
+                    >GitHub</a>
+                    <a href="https://www.linkedin.com/in/aryaa-bhadane-96998a383/" target="_blank" rel="noopener noreferrer" style={{
+                        textDecoration: 'none',
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '0.95rem',
+                        color: 'var(--text-gray)',
+                        transition: 'color 0.2s ease',
+                        cursor: 'pointer' // explicitly set cursor
+                    }}
+                        onMouseEnter={e => e.target.style.color = '#fff'}
+                        onMouseLeave={e => e.target.style.color = 'var(--text-gray)'}
+                    >LinkedIn</a>
+                </div>
+            </div>
+        </div>
+
+        {/* ── Giant wordmark ── */}
+        <div style={{
+            lineHeight: 1,
+            paddingBottom: '0',
+            paddingTop: '40px',
+            overflow: 'hidden'
+        }}>
+            <h2 className="wordmark" style={{
+                /* Reduced slightly from 13.2vw to 12.8vw to leave a small gap */
+                fontSize: 'clamp(4rem, 12.8vw, 15rem)',
+                display: 'block',
+                width: '100%',
                 textAlign: 'center',
-                marginTop: '100px',
-                paddingTop: '40px',
-                borderTop: '1px solid var(--border-dark)',
-                fontSize: '0.85rem',
-                color: 'rgba(136,136,136,0.6)',
-                fontFamily: 'Inter',
-                letterSpacing: '1px'
+                lineHeight: 0.9,
+                letterSpacing: '-0.025em',
+                marginBottom: '0',
             }}>
-                FINMESH LEDGER • ALL RIGHTS RESERVED • ARYAA BHADANE
-            </div>
+                FINMESH
+            </h2>
+        </div>
 
-            <style>
-                {`
-                .footer-link {
-                    color: var(--text-gray);
-                    text-decoration: none;
-                    transition: color 0.3s ease;
-                    font-family: 'Inter';
-                    font-size: 0.95rem;
-                }
-                .footer-link:hover {
-                    color: var(--text-white);
-                }
-                `}
-            </style>
-        </footer>
-    );
-};
+        {/* ── Copyright bar ── */}
+        <div style={{
+            borderTop: '1px solid var(--border-dark)',
+            padding: '20px 48px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        }}>
+            <span style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '0.65rem',
+                fontWeight: 600,
+                letterSpacing: '0.08em',
+                color: 'var(--text-muted)',
+                textTransform: 'uppercase',
+            }}>
+                © 2026 FinMesh Ledger Systems
+            </span>
+            <span style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '0.65rem',
+                fontWeight: 600,
+                letterSpacing: '0.08em',
+                color: 'var(--text-muted)',
+                textTransform: 'uppercase',
+            }}>
+                All Rights Reserved.
+            </span>
+        </div>
+    </footer>
+);
 
 export default Footer;

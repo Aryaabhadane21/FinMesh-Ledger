@@ -1,164 +1,142 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { List, X } from '@phosphor-icons/react';
 
 const navItems = [
-    { path: '/', label: 'Home' },
-    { path: '/account-list', label: 'Account List' },
-    { path: '/transaction-undo', label: 'Transaction Undo' },
-    { path: '/settlement-queue', label: 'Settlement Queue' },
-    { path: '/receipt-checker', label: 'Receipt Checker' },
-    { path: '/value-sorter', label: 'Value Sorter' },
-    { path: '/bank-transfer-map', label: 'Bank Transfer Map' },
-    { path: '/cheapest-currency-route', label: 'Currency Route' },
-    { path: '/trade-limit-maximizer', label: 'Trade Limit' },
+    { path: '/account-list', label: 'Modules' },
+    { path: '/cheapest-currency-route', label: 'Route' },
+    { path: '/bank-transfer-map', label: 'Network' },
 ];
 
 const Header = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
+
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 40);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+
+    // Close menu on route change
+    useEffect(() => { setMenuOpen(false); }, [location]);
 
     return (
         <>
             <header style={{
-                padding: '20px 40px',
-                borderBottom: '1px solid var(--border-dark)',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                backgroundColor: 'var(--bg-black)',
-                position: 'sticky',
-                top: 0,
+                position: 'fixed',
+                top: 0, left: 0, right: 0,
+                height: '72px',
                 zIndex: 1000,
-                backdropFilter: 'blur(12px)'
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '0 48px',
+                backgroundColor: scrolled ? 'rgba(0,0,0,0.92)' : 'transparent',
+                backdropFilter: scrolled ? 'blur(20px)' : 'none',
+                borderBottom: scrolled ? '1px solid var(--border-dark)' : '1px solid transparent',
+                transition: 'background-color 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease',
             }}>
-                <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '14px' }}>
-                    <img src="/logo.png" alt="FinMesh" style={{ width: '40px', height: '40px', borderRadius: '4px', objectFit: 'cover' }} />
-                    <span style={{ fontSize: '1.3rem', color: 'var(--text-white)', fontWeight: '700', fontFamily: 'Playfair Display, serif' }}>
-                        FinMesh Ledger
+                {/* Logo */}
+                <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{
+                        width: '28px', height: '28px',
+                        border: '2px solid var(--text-white)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                        <div style={{ width: '10px', height: '10px', backgroundColor: 'var(--text-white)' }} />
+                    </div>
+                    <span style={{
+                        fontFamily: 'Syne, sans-serif',
+                        fontWeight: 800,
+                        fontSize: '0.9rem',
+                        color: 'var(--text-white)',
+                        letterSpacing: '0.12em',
+                        textTransform: 'uppercase',
+                    }}>
+                        FinMesh
                     </span>
                 </Link>
 
-                {/* Desktop Nav */}
-                <nav className="desktop-nav">
+                {/* Desktop nav */}
+                <nav style={{ display: 'flex', alignItems: 'center', gap: '40px' }} className="desktop-nav">
                     {navItems.map(item => (
                         <Link
                             key={item.path}
                             to={item.path}
-                            className={`nav-link ${location.pathname === item.path ? 'nav-active' : ''}`}
+                            style={{
+                                fontFamily: 'Inter, sans-serif',
+                                fontSize: '0.8rem',
+                                fontWeight: 500,
+                                color: location.pathname === item.path ? 'var(--text-white)' : 'var(--text-gray)',
+                                textDecoration: 'none',
+                                letterSpacing: '0.04em',
+                                transition: 'color 0.2s ease',
+                            }}
                         >
                             {item.label}
                         </Link>
                     ))}
+                    <Link to="/account-list">
+                        <button className="btn-primary" style={{ padding: '10px 24px', fontSize: '0.72rem' }}>
+                            Launch →
+                        </button>
+                    </Link>
                 </nav>
 
-                {/* Mobile Hamburger */}
+                {/* Hamburger */}
                 <button
-                    onClick={() => setIsOpen(!isOpen)}
-                    className="hamburger-btn"
+                    onClick={() => setMenuOpen(!menuOpen)}
+                    className="hamburger"
                     style={{
-                        display: 'none',
-                        background: 'transparent',
-                        color: 'var(--text-white)',
-                        padding: '8px',
-                        boxShadow: 'none'
+                        background: 'transparent', border: 'none',
+                        color: 'var(--text-white)', cursor: 'pointer',
+                        display: 'none', flexDirection: 'column', gap: '5px', padding: '4px',
                     }}
+                    aria-label="Toggle menu"
                 >
-                    {isOpen ? <X size={28} /> : <List size={28} />}
+                    <span style={{ display: 'block', width: '22px', height: '1.5px', background: '#fff', transition: 'all 0.3s', transform: menuOpen ? 'rotate(45deg) translateY(5px)' : 'none' }} />
+                    <span style={{ display: 'block', width: '22px', height: '1.5px', background: '#fff', opacity: menuOpen ? 0 : 1 }} />
+                    <span style={{ display: 'block', width: '22px', height: '1.5px', background: '#fff', transition: 'all 0.3s', transform: menuOpen ? 'rotate(-45deg) translateY(-5px)' : 'none' }} />
                 </button>
             </header>
 
-            {/* Mobile Sidebar */}
-            <div className={`mobile-sidebar ${isOpen ? 'sidebar-open' : ''}`}>
-                <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '24px' }}>
-                    {navItems.map(item => (
-                        <Link
-                            key={item.path}
-                            to={item.path}
-                            onClick={() => setIsOpen(false)}
-                            className={`mobile-nav-link ${location.pathname === item.path ? 'nav-active' : ''}`}
-                        >
-                            {item.label}
-                        </Link>
-                    ))}
-                </nav>
+            {/* Fullscreen mobile menu */}
+            <div style={{
+                position: 'fixed', inset: 0, zIndex: 999,
+                backgroundColor: 'var(--bg-black)',
+                display: 'flex', flexDirection: 'column',
+                justifyContent: 'center', alignItems: 'center', gap: '48px',
+                opacity: menuOpen ? 1 : 0,
+                pointerEvents: menuOpen ? 'all' : 'none',
+                transition: 'opacity 0.35s ease',
+            }}>
+                {[{ path: '/', label: 'Overview' }, ...navItems].map(item => (
+                    <Link
+                        key={item.path}
+                        to={item.path}
+                        style={{
+                            fontFamily: 'Syne, sans-serif',
+                            fontSize: 'clamp(2rem, 8vw, 4rem)',
+                            fontWeight: 800,
+                            color: location.pathname === item.path ? 'var(--text-white)' : 'var(--text-muted)',
+                            textDecoration: 'none',
+                            textTransform: 'uppercase',
+                            letterSpacing: '-0.02em',
+                            transition: 'color 0.2s ease',
+                        }}
+                    >
+                        {item.label}
+                    </Link>
+                ))}
             </div>
 
-            {/* Overlay */}
-            {isOpen && <div className="sidebar-overlay" onClick={() => setIsOpen(false)} />}
-
-            <style>
-                {`
-                .desktop-nav {
-                    display: flex;
-                    gap: 8px;
-                    align-items: center;
-                    flex-wrap: wrap;
-                    justify-content: flex-end;
-                }
-                .nav-link {
-                    text-decoration: none;
-                    color: var(--text-gray);
-                    font-weight: 500;
-                    font-size: 0.82rem;
-                    padding: 8px 14px;
-                    border-radius: 6px;
-                    font-family: 'Inter', sans-serif;
-                    white-space: nowrap;
-                }
-                .nav-link:hover {
-                    color: var(--text-white);
-                    background: var(--hover-bg);
-                }
-                .nav-active {
-                    color: var(--text-white) !important;
-                    background: var(--hover-bg);
-                }
-                .hamburger-btn {
-                    display: none !important;
-                }
-                .mobile-sidebar {
-                    position: fixed;
-                    top: 0;
-                    right: -320px;
-                    width: 300px;
-                    height: 100vh;
-                    background: var(--bg-dark);
-                    border-left: 1px solid var(--border-dark);
-                    z-index: 2000;
-                    transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-                    overflow-y: auto;
-                    padding-top: 80px;
-                }
-                .sidebar-open {
-                    right: 0 !important;
-                }
-                .sidebar-overlay {
-                    position: fixed;
-                    inset: 0;
-                    background: rgba(0,0,0,0.7);
-                    z-index: 1500;
-                }
-                .mobile-nav-link {
-                    text-decoration: none;
-                    color: var(--text-gray);
-                    font-weight: 500;
-                    font-size: 1rem;
-                    padding: 16px 20px;
-                    border-radius: 8px;
-                    display: block;
-                    font-family: 'Inter', sans-serif;
-                }
-                .mobile-nav-link:hover, .mobile-nav-link.nav-active {
-                    color: var(--text-white);
-                    background: var(--hover-bg);
-                }
-                @media (max-width: 1024px) {
+            <style>{`
+                @media (max-width: 860px) {
                     .desktop-nav { display: none !important; }
-                    .hamburger-btn { display: flex !important; }
+                    .hamburger { display: flex !important; }
                 }
-                `}
-            </style>
+            `}</style>
         </>
     );
 };

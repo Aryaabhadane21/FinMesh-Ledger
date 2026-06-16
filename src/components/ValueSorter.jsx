@@ -1,80 +1,73 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { SortAscending, Funnel } from '@phosphor-icons/react';
 
 const ValueSorter = ({ accounts }) => {
-    const sortedByValue = [...accounts].sort((a, b) => b.balance - a.balance);
-    const maxValue = sortedByValue[0].balance;
+    const [threshold, setThreshold] = useState(0);
+    const filtered = accounts.filter(acc => acc.balance >= threshold);
 
     return (
-        <section className="container reveal">
-            <div className="card">
-                <div style={{ marginBottom: '56px' }}>
-                    <h2 style={{ fontSize: '36px', marginBottom: '16px' }}>Value Sorter</h2>
-                    <p style={{ color: 'var(--text-gray)', fontFamily: 'Inter' }}>A tool that ranks accounts based on their total financial value.</p>
+        <section className="container">
+            <div style={{ display: 'grid', gridTemplateColumns: '350px 1fr', gap: '60px', alignItems: 'start' }}>
+                <div className="card" style={{ position: 'sticky', top: '120px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px' }}>
+                        <Funnel size={24} color="#fff" />
+                        <h2 style={{ fontSize: '1rem' }}>VOLUME_FILTER</h2>
+                    </div>
+
+                    <div style={{ marginBottom: '40px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
+                            <span style={{ fontSize: '0.75rem', fontWeight: '800' }}>THRESHOLD</span>
+                            <span style={{ fontSize: '0.9rem', color: 'var(--text-white)', fontWeight: '800' }}>{threshold.toLocaleString()}</span>
+                        </div>
+                        <input
+                            type="range"
+                            min="0"
+                            max="100000"
+                            step="1000"
+                            value={threshold}
+                            onChange={(e) => setThreshold(parseInt(e.target.value))}
+                            style={{ width: '100%', accentColor: '#fff', cursor: 'pointer' }}
+                        />
+                    </div>
+
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-gray)', lineHeight: '1.6' }}>
+                        Filtering high-velocity accounts above the specified magnitude threshold.
+                    </p>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                    {sortedByValue.map((acc, index) => (
-                        <div key={acc.id} style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '32px',
-                            padding: '32px',
-                            borderRadius: '16px',
-                            backgroundColor: 'var(--bg-dark)',
-                            border: index < 3 ? '1px solid var(--text-white)' : '1px solid var(--border-dark)',
-                            transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-                        }} className="sorter-row">
-                            <div style={{
-                                width: '48px',
-                                height: '48px',
-                                borderRadius: '50%',
-                                backgroundColor: index < 3 ? 'var(--text-white)' : 'var(--bg-card)',
-                                color: index < 3 ? 'var(--bg-black)' : 'var(--text-white)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontWeight: '800',
-                                fontFamily: 'Inter',
-                                fontSize: '1.1rem'
-                            }}>
-                                {index + 1}
-                            </div>
-
-                            <div style={{ flex: 1 }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
-                                    <span style={{ fontWeight: '700', color: 'var(--text-white)', fontSize: '1.25rem', fontFamily: 'Playfair Display' }}>{acc.name}</span>
-                                    <span className="spinning-number" style={{ fontWeight: '500', color: 'var(--text-gray)', fontFamily: 'Inter' }}>
-                                        {acc.balance.toLocaleString()} {acc.currency}
-                                    </span>
-                                </div>
-                                <div style={{
-                                    width: '100%',
-                                    height: '2px',
-                                    backgroundColor: 'rgba(255,255,255,0.05)',
-                                    borderRadius: '1px',
-                                    overflow: 'hidden'
-                                }}>
-                                    <div style={{
-                                        width: `${(acc.balance / maxValue) * 100}%`,
-                                        height: '100%',
-                                        backgroundColor: 'var(--text-white)',
-                                        borderRadius: '1px'
-                                    }} />
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+                <div className="table-wrapper">
+                    <div style={{ padding: '24px', borderBottom: '1px solid var(--border-dark)', display: 'flex', justifyContent: 'space-between' }}>
+                        <span style={{ fontSize: '0.7rem', fontWeight: '800' }}>ORACLE_DATA_STREAM</span>
+                        <span style={{ fontSize: '0.7rem', fontWeight: '800', color: 'var(--text-white)' }}>{filtered.length} MATCHES</span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>IDENTIFIER</th>
+                                <th>MAGNITUDE</th>
+                                <th>CURRENCY</th>
+                                <th>HOLDER</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filtered.sort((a, b) => b.balance - a.balance).map(acc => (
+                                <tr key={acc.id}>
+                                    <td style={{ fontFamily: 'monospace', color: '#555' }}>ID_{acc.id}</td>
+                                    <td style={{ fontWeight: '800', color: 'var(--text-white)', fontSize: '1.2rem' }}>
+                                        {acc.balance.toLocaleString()}
+                                    </td>
+                                    <td>
+                                        <span style={{ padding: '4px 8px', border: '1px solid #222', fontSize: '0.7rem', fontWeight: '800' }}>
+                                            {acc.currency}
+                                        </span>
+                                    </td>
+                                    <td style={{ fontWeight: '700' }}>{acc.name.toUpperCase()}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
-            <style>
-                {`
-                .sorter-row:hover {
-                    background-color: #222 !important;
-                    transform: scale(1.02);
-                }
-                `}
-            </style>
         </section>
     );
 };

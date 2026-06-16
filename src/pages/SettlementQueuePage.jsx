@@ -13,7 +13,7 @@ const SettlementQueuePage = () => {
             nextPage={{ path: '/receipt-checker', label: 'Receipt Checker' }}
         >
             <div className="container">
-                <SettlementQueue initialQueue={initialQueue} />
+                <SettlementQueue transactions={initialQueue} />
             </div>
         </PageLayout>
     );

@@ -1,98 +1,58 @@
-import React, { useState } from 'react';
-import { ArrowSquareOut, ArrowsCounterClockwise } from '@phosphor-icons/react';
+import React from 'react';
+import { ArrowsCounterClockwise, ShieldWarning } from '@phosphor-icons/react';
 
 const TransactionUndo = ({ initialTransactions, onUndo }) => {
-    const [transactions, setTransactions] = useState(initialTransactions);
-    const [revertedId, setRevertedId] = useState(null);
-
-    const handleUndo = (id) => {
-        setTransactions(prev => prev.map(txn =>
-            txn.id === id ? { ...txn, status: 'Reverted' } : txn
-        ));
-        setRevertedId(id);
-        onUndo(id);
-        setTimeout(() => setRevertedId(null), 3000);
-    };
-
     return (
-        <section className="card reveal" style={{ margin: '20px' }}>
-            <div style={{ marginBottom: '40px' }}>
-                <h2 style={{ fontSize: '32px', marginBottom: '12px' }}>Transaction Undo</h2>
-                <p style={{ color: 'var(--text-gray)', fontFamily: 'Inter, sans-serif' }}>A log that tracks every change to a ledger, allowing the system to safely reverse a failed transfer.</p>
+        <section className="container">
+            <div style={{ marginBottom: '40px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <ShieldWarning size={32} color="#fff" />
+                <h2 style={{ fontSize: '1.2rem' }}>IMMUTABLE_LEDGER_AUDIT</h2>
             </div>
 
-            {revertedId && (
-                <div className="success-pulse" style={{ color: 'var(--text-white)', padding: '20px', border: '1px solid var(--text-white)', borderRadius: '8px', marginBottom: '32px', textAlign: 'center', fontWeight: '700' }}>
-                    Boom! Money moved ✓
-                </div>
-            )}
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                {transactions.map(txn => (
-                    <div key={txn.id} style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        padding: '30px',
-                        backgroundColor: 'var(--bg-dark)',
-                        borderRadius: '12px',
-                        border: '1px solid var(--border-dark)'
-                    }}>
-                        <div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-                                <ArrowSquareOut color="var(--text-white)" weight="bold" />
-                                <span style={{ color: 'var(--text-white)', fontWeight: '700', fontSize: '1.1rem' }}>{txn.id}</span>
-                            </div>
-                            <div style={{ color: 'var(--text-gray)', fontSize: '0.9rem', fontFamily: 'Inter' }}>
-                                {txn.from} → {txn.to} • <span style={{ opacity: 0.6 }}>{txn.timestamp}</span>
-                            </div>
-                        </div>
-
-                        <div style={{ textAlign: 'right', display: 'flex', alignItems: 'center', gap: '30px' }}>
-                            <div className={revertedId === txn.id ? 'spinning-number' : ''} style={{ fontWeight: '700', color: 'var(--text-white)', fontSize: '1.2rem' }}>
-                                {txn.amount} {txn.currency}
-                            </div>
-
-                            {txn.status === 'Failed' ? (
-                                <button
-                                    onClick={() => handleUndo(txn.id)}
-                                    style={{
-                                        backgroundColor: 'var(--error-red)',
-                                        color: 'white',
-                                        padding: '12px 24px',
-                                        fontSize: '0.8rem',
-                                        borderRadius: '8px'
-                                    }}
-                                    className="undo-btn"
-                                >
-                                    <ArrowsCounterClockwise size={18} /> Undo
-                                </button>
-                            ) : (
-                                <span style={{
-                                    color: txn.status === 'Completed' ? 'var(--text-white)' : 'var(--text-gray)',
-                                    fontWeight: '700',
-                                    fontSize: '0.9rem',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '1px'
-                                }}>
-                                    {txn.status}
-                                </span>
-                            )}
-                        </div>
-                    </div>
-                ))}
+            <div className="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>TXN_HASH</th>
+                            <th>ORIGIN</th>
+                            <th>DESTINATION</th>
+                            <th>MAGNITUDE</th>
+                            <th>TIMESTAMP</th>
+                            <th>PROTOCOL_ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {[...initialTransactions].reverse().map((txn) => (
+                            <tr key={txn.id}>
+                                <td style={{ fontFamily: 'monospace', color: '#555' }}>0x{txn.id.toString(16).padStart(8, '0')}</td>
+                                <td style={{ fontWeight: '700' }}>ACC_{txn.from}</td>
+                                <td style={{ fontWeight: '700' }}>ACC_{txn.to}</td>
+                                <td style={{ fontWeight: '800', color: 'var(--text-white)' }}>
+                                    {txn.amount.toLocaleString()} {txn.currency || 'USD'}
+                                </td>
+                                <td style={{ fontSize: '0.8rem', color: 'var(--text-gray)' }}>{txn.date}</td>
+                                <td>
+                                    <button
+                                        onClick={() => onUndo(txn.id)}
+                                        className="secondary-btn"
+                                        style={{
+                                            fontSize: '0.65rem',
+                                            padding: '8px 16px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '8px',
+                                            border: '1px solid #333'
+                                        }}
+                                    >
+                                        <ArrowsCounterClockwise size={14} />
+                                        ROLLBACK_TXN
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
-
-            <style>
-                {`
-                .undo-btn { transition: all 0.3s ease; }
-                .undo-btn:hover {
-                    transform: scale(1.05) !important;
-                    box-shadow: 0 0 25px rgba(255, 68, 68, 0.4) !important;
-                    background-color: #ff3333 !important;
-                }
-                `}
-            </style>
         </section>
     );
 };

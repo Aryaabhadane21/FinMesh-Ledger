@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import { ArrowsDownUp, ArrowsClockwise } from '@phosphor-icons/react';
 
 const AccountList = ({ accounts }) => {
     const [sortedAccounts, setSortedAccounts] = useState(accounts);
     const [isSorted, setIsSorted] = useState(false);
-    const [spinningId, setSpinningId] = useState(null);
+    const [isSyncing, setIsSyncing] = useState(false);
 
     const toggleSort = () => {
-        setSpinningId('all');
+        setIsSyncing(true);
         setTimeout(() => {
             if (isSorted) {
                 setSortedAccounts(accounts);
@@ -15,55 +16,63 @@ const AccountList = ({ accounts }) => {
                 setSortedAccounts(sorted);
             }
             setIsSorted(!isSorted);
-            setSpinningId(null);
+            setIsSyncing(false);
         }, 800);
     };
 
-    const getEmoji = (currency) => {
-        if (currency === 'USD') return '💵';
-        if (currency === 'EUR') return '💶';
-        return '💷';
-    };
-
     return (
-        <section className="container reveal">
-            <div style={{ marginBottom: '50px' }}>
-                <h2 style={{ marginBottom: '12px' }}>Account List</h2>
-                <p style={{ color: 'var(--text-gray)', fontSize: '1.2rem', fontFamily: 'Inter, sans-serif' }}>
-                    A table that clearly shows the money and assets in all verified user accounts.
-                </p>
+        <section className="container">
+            <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '48px',
+                padding: '24px 0'
+            }}>
+                <div>
+                    <h2 style={{ fontSize: '1.2rem', color: 'var(--text-white)', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <span style={{ width: '12px', height: '12px', border: '2px solid #fff' }}></span>
+                        NETWORK_ORACLE
+                    </h2>
+                </div>
+                <button onClick={toggleSort} className="secondary-btn" style={{ fontSize: '0.7rem' }}>
+                    {isSyncing ? <ArrowsClockwise className="spinning-number" /> : <ArrowsDownUp />}
+                    {isSorted ? 'RESET_SEQUENCE' : 'RANK_BY_CAPACITY'}
+                </button>
             </div>
 
-            <div className="table-wrapper">
-                <div style={{ padding: '24px', display: 'flex', justifyContent: 'flex-end', backgroundColor: 'var(--bg-dark)' }}>
-                    <button onClick={toggleSort} className="secondary-btn" style={{ padding: '10px 24px' }}>
-                        {isSorted ? 'Reset' : 'Sort by Balance'}
-                    </button>
-                </div>
+            <div className="table-wrapper" style={{ opacity: isSyncing ? 0.5 : 1, transition: 'opacity 0.3s ease' }}>
                 <table>
                     <thead>
                         <tr>
-                            <th>Account ID</th>
-                            <th>Name</th>
-                            <th>Currency</th>
-                            <th>Balance</th>
-                            <th>Assets</th>
-                            <th>Status</th>
+                            <th>IDENTIFIER</th>
+                            <th>HOLDER_NAME</th>
+                            <th>DENOMINATION</th>
+                            <th>VOLUME</th>
+                            <th>ASSETS</th>
+                            <th>PROTOCOL_STATUS</th>
                         </tr>
                     </thead>
                     <tbody>
                         {sortedAccounts.map((acc) => (
                             <tr key={acc.id}>
-                                <td style={{ color: 'var(--text-white)', fontWeight: '700' }}>#{acc.id}</td>
-                                <td>{acc.name}</td>
+                                <td style={{ fontFamily: 'monospace', color: '#555' }}>ID_{acc.id}</td>
+                                <td style={{ fontWeight: '700', color: 'var(--text-white)' }}>{acc.name.toUpperCase()}</td>
                                 <td>
-                                    <span className="currency-icon" style={{ marginRight: '8px' }}>{getEmoji(acc.currency)}</span>
-                                    {acc.currency}
+                                    <span style={{
+                                        padding: '4px 8px',
+                                        backgroundColor: '#111',
+                                        border: '1px solid #222',
+                                        fontSize: '0.7rem',
+                                        fontWeight: '800'
+                                    }}>
+                                        {acc.currency}
+                                    </span>
                                 </td>
-                                <td className={spinningId === 'all' ? 'spinning-number' : ''} style={{ fontWeight: '700', color: 'var(--text-white)' }}>
+                                <td style={{ fontWeight: '800', color: 'var(--text-white)', fontSize: '1.1rem' }}>
                                     {acc.balance.toLocaleString()}
                                 </td>
-                                <td style={{ color: 'var(--text-gray)', fontSize: '0.9rem' }}>{acc.assets}</td>
+                                <td style={{ color: 'var(--text-gray)', fontSize: '0.8rem' }}>{acc.assets || 'LIQUID_ONLY'}</td>
                                 <td>
                                     <span className="status-badge">
                                         {acc.status}
