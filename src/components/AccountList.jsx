@@ -1,24 +1,18 @@
-import React, { useState } from 'react';
-import { ArrowsDownUp, ArrowsClockwise } from '@phosphor-icons/react';
+import React, { useState, useMemo } from 'react';
+import { ArrowsDownUp } from '@phosphor-icons/react';
 
 const AccountList = ({ accounts }) => {
-    const [sortedAccounts, setSortedAccounts] = useState(accounts);
     const [isSorted, setIsSorted] = useState(false);
-    const [isSyncing, setIsSyncing] = useState(false);
 
-    const toggleSort = () => {
-        setIsSyncing(true);
-        setTimeout(() => {
-            if (isSorted) {
-                setSortedAccounts(accounts);
-            } else {
-                const sorted = [...sortedAccounts].sort((a, b) => b.balance - a.balance);
-                setSortedAccounts(sorted);
-            }
-            setIsSorted(!isSorted);
-            setIsSyncing(false);
-        }, 800);
-    };
+    const verifiedAccounts = useMemo(
+        () => accounts.filter(acc => acc.status === 'Verified'),
+        [accounts]
+    );
+
+    const displayAccounts = useMemo(() => {
+        if (!isSorted) return verifiedAccounts;
+        return [...verifiedAccounts].sort((a, b) => b.balance - a.balance);
+    }, [verifiedAccounts, isSorted]);
 
     return (
         <section className="container">
@@ -34,14 +28,17 @@ const AccountList = ({ accounts }) => {
                         <span style={{ width: '12px', height: '12px', border: '2px solid #fff' }}></span>
                         NETWORK_ORACLE
                     </h2>
+                    <span style={{ fontSize: '0.65rem', fontWeight: '800', color: 'var(--text-gray)', marginTop: '8px', display: 'inline-block', letterSpacing: '0.1em' }}>
+                        {verifiedAccounts.length} VERIFIED / {accounts.length} TOTAL
+                    </span>
                 </div>
-                <button onClick={toggleSort} className="secondary-btn" style={{ fontSize: '0.7rem' }}>
-                    {isSyncing ? <ArrowsClockwise className="spinning-number" /> : <ArrowsDownUp />}
+                <button onClick={() => setIsSorted(prev => !prev)} className="secondary-btn" style={{ fontSize: '0.7rem' }}>
+                    <ArrowsDownUp />
                     {isSorted ? 'RESET_SEQUENCE' : 'RANK_BY_CAPACITY'}
                 </button>
             </div>
 
-            <div className="table-wrapper" style={{ opacity: isSyncing ? 0.5 : 1, transition: 'opacity 0.3s ease' }}>
+            <div className="table-wrapper">
                 <table>
                     <thead>
                         <tr>
@@ -54,7 +51,7 @@ const AccountList = ({ accounts }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {sortedAccounts.map((acc) => (
+                        {displayAccounts.map((acc) => (
                             <tr key={acc.id}>
                                 <td style={{ fontFamily: 'monospace', color: '#555' }}>ID_{acc.id}</td>
                                 <td style={{ fontWeight: '700', color: 'var(--text-white)' }}>{acc.name.toUpperCase()}</td>

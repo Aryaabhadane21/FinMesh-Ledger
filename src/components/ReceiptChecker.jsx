@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { MagnifyingGlass, SealCheck, WarningOctagon } from '@phosphor-icons/react';
 
 const ReceiptChecker = ({ transactions }) => {
     const [searchId, setSearchId] = useState('');
-    const [result, setResult] = useState(null);
 
-    const checkReceipt = () => {
-        const found = transactions.find(t => t.id.toString() === searchId);
-        setResult(found || 'NOT_FOUND');
-    };
+    const result = useMemo(() => {
+        const trimmed = searchId.trim();
+        if (!trimmed) return null;
+        const found = transactions.find(t => t.id.toString() === trimmed);
+        return found || 'NOT_FOUND';
+    }, [searchId, transactions]);
 
     return (
         <section className="container">
             <div style={{ maxWidth: '600px', margin: '0 auto' }}>
                 <div className="card" style={{ padding: '60px', textAlign: 'center' }}>
-                    <h2 style={{ fontSize: '1.25rem', marginBottom: '40px' }}>CRYPTOGRAPHIC_VERIFICATION</h2>
+                    <h2 style={{ fontSize: '1.05rem', marginBottom: '40px', letterSpacing: '0.04em' }}>CRYPTOGRAPHIC_VERIFICATION</h2>
                     <div style={{ position: 'relative', marginBottom: '32px' }}>
                         <input
                             type="text"
@@ -29,13 +30,14 @@ const ReceiptChecker = ({ transactions }) => {
                                 color: 'var(--text-white)',
                                 fontFamily: 'monospace',
                                 fontSize: '1rem',
-                                outline: 'none'
+                                outline: 'none',
+                                textAlign: 'center'
                             }}
                         />
                     </div>
-                    <button onClick={checkReceipt} style={{ width: '100%', justifyContent: 'center' }}>
-                        <MagnifyingGlass size={20} weight="bold" /> RUN_AUDIT
-                    </button>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-gray)', fontWeight: '700', letterSpacing: '0.1em' }}>
+                        REAL-TIME_VERIFICATION — RESULTS_UPDATE_AS_YOU_TYPE
+                    </div>
                 </div>
 
                 {result && (
@@ -68,9 +70,20 @@ const ReceiptChecker = ({ transactions }) => {
                                         <div style={{ fontSize: '0.65rem', color: 'var(--text-gray)' }}>TIMESTAMP</div>
                                         <div style={{ fontWeight: '800', color: 'var(--text-white)' }}>{result.date}</div>
                                     </div>
+                                    <div>
+                                        <div style={{ fontSize: '0.65rem', color: 'var(--text-gray)' }}>STATUS</div>
+                                        <div style={{
+                                            fontWeight: '800',
+                                            color: result.status === 'Failed' ? 'var(--error-red)' : '#4caf50'
+                                        }}>{result.status}</div>
+                                    </div>
+                                    <div>
+                                        <div style={{ fontSize: '0.65rem', color: 'var(--text-gray)' }}>TXN_HASH</div>
+                                        <div style={{ fontWeight: '800', color: 'var(--text-white)', fontFamily: 'monospace' }}>0x{result.id.toString(16).padStart(8, '0')}</div>
+                                    </div>
                                     <div style={{ gridColumn: 'span 2' }}>
                                         <div style={{ fontSize: '0.65rem', color: 'var(--text-gray)' }}>NETWORK_PATH</div>
-                                        <div style={{ fontWeight: '800', color: 'var(--text-white)' }}>{result.from} → {result.to}</div>
+                                        <div style={{ fontWeight: '800', color: 'var(--text-white)' }}>ACC_{result.from} → ACC_{result.to}</div>
                                     </div>
                                 </div>
                             </div>
