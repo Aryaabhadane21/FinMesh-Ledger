@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { SortAscending, SortDescending, Funnel } from '@phosphor-icons/react';
 import { exchangeRates } from '../data/mockData';
 

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import PageLayout from '../components/PageLayout';
 import ValueSorter from '../components/ValueSorter';
 import { initialAccounts } from '../data/mockData';

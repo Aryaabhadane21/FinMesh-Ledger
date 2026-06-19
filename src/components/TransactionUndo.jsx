@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ArrowsCounterClockwise, ShieldWarning } from '@phosphor-icons/react';
 
 const TransactionUndo = ({ initialTransactions, onUndo, undoLog }) => {

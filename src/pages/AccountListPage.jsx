@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PageLayout from '../components/PageLayout';
 import AccountList from '../components/AccountList';
 import { initialAccounts } from '../data/mockData';

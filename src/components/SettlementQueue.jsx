@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Queue, Timer } from '@phosphor-icons/react';
 
 const SettlementQueue = ({ transactions, onProcess, onAdd }) => {
@@ -9,8 +9,16 @@ const SettlementQueue = ({ transactions, onProcess, onAdd }) => {
 
     const handleEnqueue = (e) => {
         e.preventDefault();
-        if (!from || !to || !amount) return;
-        onAdd({ from, to, amount: Number(amount), currency });
+        const fromClean = from.trim().toUpperCase();
+        const toClean = to.trim().toUpperCase();
+
+        if (!fromClean || !toClean || !amount) return;
+        if (fromClean === toClean) {
+            alert("Self-transfer protocol error: Origin and destination must be unique identifiers.");
+            return;
+        }
+
+        onAdd({ from: fromClean, to: toClean, amount: Number(amount), currency });
         setFrom('');
         setTo('');
         setAmount('');
@@ -96,7 +104,20 @@ const SettlementQueue = ({ transactions, onProcess, onAdd }) => {
                         <option value="INR">INR</option>
                     </select>
                 </div>
-                <button type="submit" className="secondary-btn" style={{ fontSize: '0.65rem', padding: '10px 24px', fontWeight: '800', letterSpacing: '0.05em', border: '1px solid #333', cursor: 'pointer' }}>
+                <button
+                    type="submit"
+                    className="secondary-btn"
+                    disabled={from && to && from.trim().toUpperCase() === to.trim().toUpperCase()}
+                    style={{
+                        fontSize: '0.65rem',
+                        padding: '10px 24px',
+                        fontWeight: '800',
+                        letterSpacing: '0.05em',
+                        border: '1px solid #333',
+                        cursor: (from && to && from.trim().toUpperCase() === to.trim().toUpperCase()) ? 'not-allowed' : 'pointer',
+                        opacity: (from && to && from.trim().toUpperCase() === to.trim().toUpperCase()) ? 0.4 : 1
+                    }}
+                >
                     ENQUEUE
                 </button>
             </form>

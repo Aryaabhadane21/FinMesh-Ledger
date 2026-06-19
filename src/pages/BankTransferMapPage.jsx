@@ -1,4 +1,4 @@
-import React from 'react';
+
 import PageLayout from '../components/PageLayout';
 import BankTransferMap from '../components/BankTransferMap';
 

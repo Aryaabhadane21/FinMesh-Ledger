@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PageLayout from '../components/PageLayout';
 import SettlementQueue from '../components/SettlementQueue';
 import { initialQueue } from '../data/mockData';

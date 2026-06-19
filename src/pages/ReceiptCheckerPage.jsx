@@ -1,4 +1,4 @@
-import React from 'react';
+
 import PageLayout from '../components/PageLayout';
 import ReceiptChecker from '../components/ReceiptChecker';
 import { initialTransactions } from '../data/mockData';

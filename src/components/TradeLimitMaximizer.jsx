@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { ChartLineUp, Warning, Calculator } from '@phosphor-icons/react';
 import { tradeLimits, initialQueue } from '../data/mockData';
 

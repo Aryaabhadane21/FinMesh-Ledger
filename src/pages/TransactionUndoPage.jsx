@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PageLayout from '../components/PageLayout';
 import TransactionUndo from '../components/TransactionUndo';
 import { initialTransactions } from '../data/mockData';

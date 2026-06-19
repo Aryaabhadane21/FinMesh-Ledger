@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { MagnifyingGlass, SealCheck, WarningOctagon } from '@phosphor-icons/react';
+import { useState, useMemo } from 'react';
+import { SealCheck, WarningOctagon } from '@phosphor-icons/react';
 
 const ReceiptChecker = ({ transactions }) => {
     const [searchId, setSearchId] = useState('');
